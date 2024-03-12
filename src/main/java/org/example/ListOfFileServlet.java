@@ -25,8 +25,6 @@ public class ListOfFileServlet extends HttpServlet {
         req.setAttribute("folders", folders);
         req.setAttribute("currentPath", directoryPath);
         req.setAttribute("previousPath",  (new File(directoryPath)).getParent());
-        //getServletContext().getRequestDispatcher("/listOfFiles.jsp").forward(req, resp);
         req.getRequestDispatcher("listOfFiles.jsp").forward(req, resp);
-
     }
 }

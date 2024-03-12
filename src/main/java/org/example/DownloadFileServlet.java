@@ -15,20 +15,17 @@ public class DownloadFileServlet extends HttpServlet {
 
         String filePath = req.getParameter("path");
         File downloadFile = new File(filePath);
-        FileInputStream fis = new FileInputStream(downloadFile);
+        try (FileInputStream fis = new FileInputStream(downloadFile)) {
 
-        resp.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", downloadFile.getName()));
+            resp.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", downloadFile.getName()));
 
-        resp.setContentLength((int) downloadFile.length());
+            resp.setContentLength((int) downloadFile.length());
 
-        try {
             byte[] buffer = new byte[4096];
-            int bytesRead = -1;
+            int bytesRead;
             while ((bytesRead = fis.read(buffer)) != -1) {
                 resp.getOutputStream().write(buffer, 0, bytesRead);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
